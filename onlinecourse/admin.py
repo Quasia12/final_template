@@ -2,7 +2,13 @@ from django.contrib import admin
 # <HINT> Import any new Models here
 from .models import Course, Lesson, Instructor, Learner
 
-# <HINT> Register QuestionInline and ChoiceInline classes here
+class ChoiceInline(admin.StackedInline):
+    model = Choice
+    extra = 2
+
+class QuestionInline(admin.StackedInline):
+    model = Question
+    extra = 2
 
 
 class LessonInline(admin.StackedInline):
@@ -10,7 +16,9 @@ class LessonInline(admin.StackedInline):
     extra = 5
 
 
-# Register your models here.
+class CourseAdmin(admin.ModelAdmin):
+    inlines = [LessonInline, QuestionInline]
+    
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonInline]
     list_display = ('name', 'pub_date')
