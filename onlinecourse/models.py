@@ -54,6 +54,7 @@ class Learner(models.Model):
 
 # Course model
 class Course(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, default="")
     name = models.CharField(null=False, max_length=30, default='online course')
     image = models.ImageField(upload_to='course_images/')
     description = models.CharField(max_length=1000)
@@ -95,9 +96,9 @@ class Enrollment(models.Model):
     rating = models.FloatField(default=5.0)
 
 class Question(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200)
-    grade = models.IntegerField(default=50)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,default="")
+    question_text = models.CharField(null=True,max_length=200)
+    question grade = models.floatfield()
 
 
 def is_get_score(self, selected_ids):
