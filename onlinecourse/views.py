@@ -76,7 +76,20 @@ def extract_answers(request):
     submitted_anwsers.append(Choice.objects.get(id=choice_id))
 
 def show_exam_result(request, course_id, submission_id):
+    def show_exam_result(request, course_id, submission_id):
+    context = {}
     course = get_object_or_404(Course, pk=course_id)
+    submission = Submission.objects.get(id=submission_id)
+    choices = submission.choices.all()
+    total_score = 0
+    for choice in choices:
+        if choice.is_correct:
+            total_score += choice.question.grade
+    context['course'] = course
+    context['grade'] = total_score
+    context['choices'] = choices
+
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
 
 # CourseListView
 class CourseListView(generic.ListView):
